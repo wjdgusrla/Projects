@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, IdBaseComponent,
   IdComponent, IdTCPConnection, IdTCPClient, IdHTTP, Vcl.OleCtrls, SHDocVw, MSHTML,
-  Vcl.Grids, Vcl.ExtCtrls;
+  Vcl.Grids, Vcl.ExtCtrls, Vcl.ComCtrls;
 
 type
   TForm1 = class(TForm)
@@ -41,9 +41,13 @@ type
     Edit5: TEdit;
     Button4: TButton;
     Button5: TButton;
-    Button6: TButton;
     Button7: TButton;
     pkeyEdit: TEdit;
+    ProgressBar1: TProgressBar;
+    Label4: TLabel;
+    Label5: TLabel;
+    Edit9: TEdit;
+    Label6: TLabel;
     procedure FormActivate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -85,7 +89,7 @@ begin
   for I := 1 to Length(EncodedStr) do
       post[I-1] := Ord(EncodedStr[I]);
 
-    Header := 'Content-Type: application/x-www-form-urlencoded' + #10#13;
+  Header := 'Content-Type: application/x-www-form-urlencoded' + #10#13;
 
   WebBrowser1.Navigate('http://ajsunhwa15.iptime.org', EmptyParam, EmptyParam, Post, Header);
 
@@ -109,8 +113,7 @@ begin
   for I := 1 to Length(EncodedStr) do
       post[I-1] := Ord(EncodedStr[I]);
 
-    Header := 'Content-Type: application/x-www-form-urlencoded' + #10#13;
-
+  Header := 'Content-Type: application/x-www-form-urlencoded' + #10#13;
   WebBrowser1.Navigate('http://ajsunhwa15.iptime.org/discount/carSearch.cs?userID=daniel&contextPath', EmptyParam, EmptyParam, Post, Header);
 
 end;
@@ -128,8 +131,7 @@ begin
   for I := 1 to Length(EncodedStr) do
       post[I-1] := Ord(EncodedStr[I]);
 
-    Header := 'Content-Type: application/x-www-form-urlencoded' + #10#13;
-
+  Header := 'Content-Type: application/x-www-form-urlencoded' + #10#13;
   WebBrowser1.Navigate('http://ajsunhwa15.iptime.org/discount/carSearch.cs?contextPath=&userID=daniel', EmptyParam, EmptyParam, Post, Header);
 
 end;
@@ -251,6 +253,9 @@ begin
     begin
         tags2.Item(i).click;
         memo2.Lines.LoadFromFile('carlist.txt');
+        ProgressBar1.Min := 0;
+        ProgressBar1.Max := memo2.Lines.Count;
+        ProgressBar1.Position := 0;
         edit6.Text := inttostr(memo2.Lines.Count);
         exit;
     end;
@@ -267,18 +272,17 @@ begin
   carNo := copy(memo2.Lines[m2lineno],length(memo2.Lines[m2lineno])-3,4);
   tags := WebBrowser1.OleObject.Document.Body.getElementsByTagName('input');
 
+  ProgressBar1.Position := m2lineno+1;
+  edit9.Text := IntToStr(m2lineno);
+  Label4.Caption := IntToStr(round((m2lineno / Memo2.Lines.Count)*100));
+
   for i := 0 to tags.Length - 1 do
   begin
     if (tags.Item(i).NAME = 'carNumber') then
     begin
         tags.Item(i).value := carNo;
+//        exit;
     end;
-
-//    if (tags.Item(i).NAME = 'from') then
-//    begin
-//        tags.item(i).focus;//키보드 이벤트를 위해 포커스 지정
-//        tags.Item(i).value := '2017-08-13';
-//    end;
   end;
 
   tags2 := WebBrowser1.OleObject.Document.Body.getElementsByTagName('input');
@@ -294,6 +298,8 @@ end;
 
 procedure TForm1.FormActivate(Sender: TObject);
 begin
+  memo3.Lines.Add('[당일 승인처리내역]');
+  memo4.Lines.Add('[당일 이미승인처리된내역]');
   Button1.Click;
 end;
 
@@ -358,28 +364,32 @@ begin
           end;
         end;
 
-        carMemo2.Lines.Add(copy(memo1.Lines[lineNo+5],51,20));
-        carMemo2.Lines.Add(memo1.Lines[lineNo+7]);
-        carMemo2.Lines.Add(memo1.Lines[lineNo+8]);
-
-        if length(carMemo2.Text) > 10 then
+        if multiChk = 1 then
         begin
-          idx:= 0;
-          idx:= pos(scarNo,carMemo2.Text);
-          if idx>0 then // 차량번호가 있으면
+          carMemo2.Lines.Add(copy(memo1.Lines[lineNo+5],51,20));
+          carMemo2.Lines.Add(memo1.Lines[lineNo+7]);
+          carMemo2.Lines.Add(memo1.Lines[lineNo+8]);
+
+          if length(carMemo2.Text) > 10 then
           begin
-            idx := 0;
-            idx := pos(sday,carMemo2.Text);
-            if idx > 0 then
+            idx:= 0;
+            idx:= pos(scarNo,carMemo2.Text);
+            if idx>0 then // 차량번호가 있으면
             begin
-              pkeyEdit.Text := carMemo2.Lines[0];
-              multiChk := 0;
-              Button7.Click;
+              idx := 0;
+              idx := pos(sday,carMemo2.Text);
+              if idx > 0 then
+              begin
+                pkeyEdit.Text := carMemo2.Lines[0];
+                multiChk := 0;
+                Button7.Click;
+              end;
             end;
           end;
         end;
 
-        if memo1.Lines.Count > lineNo+9 then
+
+        if ((multiChk = 1) and (memo1.Lines.Count > lineNo+9)) then
         begin
           carMemo3.Lines.Add(copy(memo1.Lines[lineNo+10],51,20));
           carMemo3.Lines.Add(memo1.Lines[lineNo+12]);
@@ -404,7 +414,7 @@ begin
 
         end;
 
-        if memo1.Lines.Count > lineNo+14 then
+        if ((multiChk = 1) and (memo1.Lines.Count > lineNo+14)) then
         begin
           carMemo4.Lines.Add(copy(memo1.Lines[lineNo+15],51,20));
           carMemo4.Lines.Add(memo1.Lines[lineNo+17]);
@@ -428,7 +438,7 @@ begin
           end;
         end;
 
-        if memo1.Lines.Count > lineNo+19 then
+        if ((multiChk = 1) and (memo1.Lines.Count > lineNo+19)) then
         begin
           carMemo5.Lines.Add(copy(memo1.Lines[lineNo+20],51,20));
           carMemo5.Lines.Add(memo1.Lines[lineNo+22]);
@@ -453,7 +463,7 @@ begin
 
         end;
 
-        if memo1.Lines.Count > lineNo+24 then
+        if ((multiChk = 1) and (memo1.Lines.Count > lineNo+24)) then
         begin
           carMemo6.Lines.Add(copy(memo1.Lines[lineNo+25],51,20));
           carMemo6.Lines.Add(memo1.Lines[lineNo+27]);
@@ -478,7 +488,7 @@ begin
 
         end;
 
-        if memo1.Lines.Count > lineNo+29 then
+        if ((multiChk = 1) and (memo1.Lines.Count > lineNo+29)) then
         begin
           carMemo7.Lines.Add(copy(memo1.Lines[lineNo+30],51,20));
           carMemo7.Lines.Add(memo1.Lines[lineNo+32]);
@@ -503,7 +513,7 @@ begin
 
         end;
 
-        if multiChk = 1 then Button6.Click;
+        if multiChk = 1 then Button4.Click;
       end;
     end
     else
@@ -511,7 +521,14 @@ begin
       SetCurrLine(Memo2, GetCurrLine(Memo2)+1);
       m2lineno := GetCurrLine(Memo2);
       Edit5.Text := memo2.Lines[m2lineno];
-      carSerchStartBtn.Click;
+      if GetCurrLine(Memo2)+1 <= Memo2.Lines.Count then carSerchStartBtn.Click
+      else
+      begin
+        idx := messagedlg('확인',mtInformation, mbOKCancel , 0);
+
+        if idx = mrOK     then close;
+        if idx = mrCancel then exit;
+      end;
     end;
   end;
 
@@ -520,7 +537,14 @@ begin
     SetCurrLine(Memo2, GetCurrLine(Memo2)+1);
     m2lineno := GetCurrLine(Memo2);
     Edit5.Text := memo2.Lines[m2lineno];
-    carSerchStartBtn.Click;
+    if GetCurrLine(Memo2)+1 <= Memo2.Lines.Count then carSerchStartBtn.Click
+    else
+    begin
+      idx := messagedlg('확인',mtInformation, mbOKCancel , 0);
+
+      if idx = mrOK     then close;
+      if idx = mrCancel then exit;
+    end;
   end;
 
   if copy(sURL,39,16) = 'discountApply.cs' then
@@ -567,8 +591,13 @@ begin
       end
       else // 승인 내역 발견 시
       begin
-        edit8.Text := inttostr(strtoint(edit8.Text)+1);
-        memo4.Lines.Add(scarNo);
+        idx := 0;
+        idx := pos(sDay,memo1.Text);
+        if idx > 0 then
+        begin
+          edit8.Text := inttostr(strtoint(edit8.Text)+1);
+          memo4.Lines.Add(scarNo);
+        end;
         Button4.Click;
       end;
 
@@ -577,11 +606,13 @@ begin
 end;
 
 procedure TForm1.SetCurrLine(Memo : TMemo; Value : integer);
+var
+  buttonSelected : Integer;
 begin
     if Value < 0 then Value := 0;
-    if Value > Memo.Lines.Count then close;
-    Memo.SelLength := 0;
-    Memo.SelStart := Memo.Perform(EM_LINEINDEX, Value, 0);
+    if Value > Memo.Lines.Count then
+        Memo.SelLength := 0;
+        Memo.SelStart := Memo.Perform(EM_LINEINDEX, Value, 0);
 end;
 
 function TForm1.GetCurrLine(Memo : TMemo) : integer;

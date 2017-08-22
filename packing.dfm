@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 0
   Caption = #54217#50504#44368#54924' '#52628#44032' '#49849#51064#52376#47532
   ClientHeight = 890
-  ClientWidth = 1599
+  ClientWidth = 1123
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,33 +11,65 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   OnActivate = FormActivate
   PixelsPerInch = 96
   TextHeight = 13
+  object Label4: TLabel
+    Left = 655
+    Top = 656
+    Width = 65
+    Height = 28
+    AutoSize = False
+    BiDiMode = bdRightToLeft
+    Caption = '0'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = #47569#51008' '#44256#46357
+    Font.Style = []
+    ParentBiDiMode = False
+    ParentFont = False
+  end
+  object Label5: TLabel
+    Left = 726
+    Top = 656
+    Width = 17
+    Height = 28
+    BiDiMode = bdRightToLeft
+    Caption = '%'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -20
+    Font.Name = #47569#51008' '#44256#46357
+    Font.Style = []
+    ParentBiDiMode = False
+    ParentFont = False
+  end
   object WebBrowser1: TWebBrowser
     Left = 8
     Top = 8
-    Width = 1121
+    Width = 641
     Height = 690
     TabOrder = 0
     OnDocumentComplete = WebBrowser1DocumentComplete
     ControlData = {
-      4C000000DC730000504700000000000000000000000000000000000000000000
+      4C00000040420000504700000000000000000000000000000000000000000000
       000000004C000000000000000000000001000000E0D057007335CF11AE690800
       2B2E126208000000000000004C0000000114020000000000C000000000000046
       8000000000000000000000000000000000000000000000000000000000000000
       00000000000000000100000000000000000000000000000000000000}
   end
   object Memo1: TMemo
-    Left = 1136
-    Top = 632
+    Left = 655
+    Top = 701
     Width = 152
-    Height = 182
+    Height = 140
     TabOrder = 1
     WordWrap = False
   end
   object Memo2: TMemo
-    Left = 1135
+    Left = 655
     Top = 8
     Width = 146
     Height = 618
@@ -109,8 +141,8 @@ object Form1: TForm1
     TabOrder = 9
   end
   object Panel1: TPanel
-    Left = 1294
-    Top = 11
+    Left = 813
+    Top = 8
     Width = 297
     Height = 874
     Caption = 'Panel1'
@@ -130,7 +162,7 @@ object Form1: TForm1
     end
     object Label2: TLabel
       Left = 44
-      Top = 57
+      Top = 94
       Width = 80
       Height = 20
       Caption = #49849#51064#52376#47532
@@ -143,7 +175,7 @@ object Form1: TForm1
     end
     object Label3: TLabel
       Left = 24
-      Top = 94
+      Top = 131
       Width = 100
       Height = 20
       Caption = #44592#49849#51064#52376#47532
@@ -154,19 +186,36 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
     end
+    object Label6: TLabel
+      Left = 41
+      Top = 57
+      Width = 80
+      Height = 20
+      Caption = #54788#51116#51652#54665
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = #44404#47548#52404
+      Font.Style = []
+      ParentFont = False
+    end
     object Memo3: TMemo
       Left = 24
-      Top = 136
+      Top = 168
       Width = 241
-      Height = 337
-      Lines.Strings = (
-        'Memo3')
+      Height = 329
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = #47569#51008' '#44256#46357
+      Font.Style = []
+      ParentFont = False
       ScrollBars = ssVertical
       TabOrder = 0
     end
     object Edit8: TEdit
       Left = 144
-      Top = 91
+      Top = 128
       Width = 121
       Height = 28
       Alignment = taRightJustify
@@ -196,7 +245,7 @@ object Form1: TForm1
     end
     object Edit7: TEdit
       Left = 144
-      Top = 54
+      Top = 91
       Width = 121
       Height = 28
       Alignment = taRightJustify
@@ -211,24 +260,37 @@ object Form1: TForm1
     end
     object Memo4: TMemo
       Left = 24
-      Top = 479
+      Top = 503
       Width = 241
-      Height = 378
-      Lines.Strings = (
-        'Memo4')
+      Height = 354
       ScrollBars = ssVertical
       TabOrder = 4
+    end
+    object Edit9: TEdit
+      Left = 144
+      Top = 54
+      Width = 121
+      Height = 28
+      Alignment = taRightJustify
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -20
+      Font.Name = #44404#47548#52404
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      Text = '0'
     end
   end
   object Panel2: TPanel
     Left = 8
     Top = 704
-    Width = 1121
-    Height = 181
+    Width = 641
+    Height = 137
     Caption = 'Panel2'
     TabOrder = 11
     object Button1: TButton
-      Left = 606
+      Left = 525
       Top = 20
       Width = 75
       Height = 25
@@ -237,16 +299,16 @@ object Form1: TForm1
       OnClick = Button1Click
     end
     object Edit1: TEdit
-      Left = 247
-      Top = 105
+      Left = 262
+      Top = 51
       Width = 121
       Height = 21
       TabOrder = 1
       Text = 'Edit1'
     end
     object Edit2: TEdit
-      Left = 374
-      Top = 106
+      Left = 389
+      Top = 51
       Width = 121
       Height = 21
       TabOrder = 2
@@ -262,9 +324,9 @@ object Form1: TForm1
       OnClick = loginBtnClick
     end
     object Edit3: TEdit
-      Left = 120
+      Left = 8
       Top = 78
-      Width = 817
+      Width = 625
       Height = 21
       TabOrder = 4
       Text = 'Edit3'
@@ -288,16 +350,16 @@ object Form1: TForm1
       OnClick = day1BtnClick
     end
     object Edit4: TEdit
-      Left = 120
-      Top = 133
+      Left = 8
+      Top = 105
       Width = 257
       Height = 21
       TabOrder = 7
       Text = 'Edit4'
     end
     object Edit5: TEdit
-      Left = 120
-      Top = 105
+      Left = 135
+      Top = 51
       Width = 121
       Height = 21
       TabOrder = 8
@@ -321,30 +383,28 @@ object Form1: TForm1
       TabOrder = 10
       OnClick = Button5Click
     end
-    object Button6: TButton
+    object Button7: TButton
       Left = 444
       Top = 20
       Width = 75
       Height = 25
-      Caption = 'multe exit'
-      TabOrder = 11
-      OnClick = Button6Click
-    end
-    object Button7: TButton
-      Left = 525
-      Top = 20
-      Width = 75
-      Height = 25
       Caption = #47680#54000#49440#53469
-      TabOrder = 12
+      TabOrder = 11
       OnClick = Button7Click
     end
     object pkeyEdit: TEdit
-      Left = 120
+      Left = 8
       Top = 51
       Width = 121
       Height = 21
-      TabOrder = 13
+      TabOrder = 12
     end
+  end
+  object ProgressBar1: TProgressBar
+    Left = 8
+    Top = 640
+    Width = 641
+    Height = 55
+    TabOrder = 12
   end
 end
